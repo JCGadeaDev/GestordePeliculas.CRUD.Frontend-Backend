@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import consign from 'consign';
 
@@ -8,4 +9,3 @@ consign()
     .then('routes')
     .then('libs/boots.js')
     .into(app);
-

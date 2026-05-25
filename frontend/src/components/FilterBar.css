@@ -1,0 +1,116 @@
+.filter-bar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+}
+
+.filter-bar-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  min-width: 220px;
+  transition: border-color var(--transition);
+}
+.filter-search:focus-within {
+  border-color: var(--border-focus);
+}
+
+.filter-search-icon {
+  font-size: 0.85rem;
+  margin-right: 8px;
+  opacity: 0.6;
+}
+
+.filter-input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  padding: 8px 0;
+  flex: 1;
+}
+.filter-input::placeholder { color: var(--text-muted); }
+
+.filter-clear {
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  border-radius: 50%;
+  transition: color var(--transition);
+}
+.filter-clear:hover { color: var(--text-primary); }
+
+.filter-status,
+.filter-genres {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+.filter-chip--active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filter-chip--genre {
+  font-size: 0.75rem;
+  padding: 5px 10px;
+}
+
+.filter-select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: border-color var(--transition);
+  margin-left: auto;
+}
+.filter-select:focus { border-color: var(--border-focus); }
+
+.filter-results {
+  max-width: 1600px;
+  margin: 8px auto 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.filter-results strong { color: var(--text-secondary); }
+
+@media (max-width: 768px) {
+  .filter-bar { top: 60px; padding: 10px 16px; }
+  .filter-search { min-width: 160px; flex: 1; }
+  .filter-select { margin-left: 0; }
+}
