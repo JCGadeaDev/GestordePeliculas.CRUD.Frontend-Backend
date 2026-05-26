@@ -79,7 +79,6 @@ const AddMovieModal = ({ onSave, onClose }) => {
 
   const handleManual = () => {
     setForm({ ...INITIAL_FORM, title: query });
-    setSelected(null);
     setMode('configure');
   };
 
