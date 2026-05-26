@@ -29,7 +29,7 @@ const AddMovieModal = ({ onSave, onClose }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
-  const [selected, setSelected] = useState(null);
+
   const [form, setForm] = useState(INITIAL_FORM);
   const [saving, setSaving] = useState(false);
   const [mode, setMode] = useState('search'); // 'search' | 'configure'
@@ -72,7 +72,6 @@ const AddMovieModal = ({ onSave, onClose }) => {
         personal_rating: 0,
         notes: '',
       });
-      setSelected(result);
       setMode('configure');
     } catch { alert('Error al obtener detalles de la película.'); }
     finally { setSearching(false); }
