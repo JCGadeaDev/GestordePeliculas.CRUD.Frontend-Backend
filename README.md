@@ -2,9 +2,6 @@
 
 Gestor de películas personal full-stack con integración a TMDB, diseño dark Netflix-style y deploy en la nube.
 
-<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/dd1739cc-5dd0-450e-b708-1af9f6b1a37e" />
-
-
 ## Demo
 
 - **Frontend (Vercel):** `https://tu-app.vercel.app`
@@ -13,6 +10,8 @@ Gestor de películas personal full-stack con integración a TMDB, diseño dark N
 > El backend usa el free tier de Render — el primer request después de 15 min de inactividad puede tardar ~30s en despertar.
 
 ## Stack
+
+<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/dd1739cc-5dd0-450e-b708-1af9f6b1a37e" />
 
 | Capa | Tecnología |
 |---|---|
