@@ -75,9 +75,7 @@ Ambos servidores deben correr simultáneamente. El backend debe iniciar primero.
 `frontend/.env` ya tiene `PORT=3001`. Si querés apuntar a un backend remoto:
 
 ```
-REACT_APP_API_URL=https://movie-vault<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/dc0b9742-261b-41ed-ae93-a9bbc86f99a8" />
-<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/49a961e0-f59a-49d5-ba2b-9ea6b75deb3a" />
-.onrender.com
+REACT_APP_API_URL=movie-api.onrender.com Render
 ```
 
 Sin esta variable el frontend usa `http://localhost:3000` por defecto.
