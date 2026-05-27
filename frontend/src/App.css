@@ -31,3 +31,17 @@
   transition: background var(--transition);
 }
 .app-error button:hover { background: rgba(229, 9, 20, 0.2); }
+
+.app-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--bg-primary);
+  color: var(--text-muted);
+}
+.app-loading-logo { font-size: 3rem; animation: pulse 1.5s ease infinite; }
+.app-loading p { font-size: 0.875rem; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }

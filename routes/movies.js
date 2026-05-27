@@ -1,16 +1,17 @@
 import mongojs from 'mongojs';
+import { verifyToken, requireAdmin } from '../libs/firebaseAdmin';
 
 const db = mongojs(process.env.MONGODB_URI || 'moviesdb', ['movies']);
 
 module.exports = (app) => {
-  app.get('/movies', (req, res) => {
+  app.get('/movies', verifyToken, (req, res) => {
     db.movies.find((err, movies) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ movies });
     });
   });
 
-  app.post('/movies', (req, res) => {
+  app.post('/movies', verifyToken, requireAdmin, (req, res) => {
     const newMovie = Object.assign({}, req.body, {
       added_at: new Date(),
       status: req.body.status || 'pending',
@@ -22,7 +23,7 @@ module.exports = (app) => {
     });
   });
 
-  app.put('/movies/:id', (req, res) => {
+  app.put('/movies/:id', verifyToken, requireAdmin, (req, res) => {
     const updateFields = Object.assign({}, req.body);
     delete updateFields._id;
     db.movies.update(
@@ -36,7 +37,7 @@ module.exports = (app) => {
     );
   });
 
-  app.delete('/movies/:id', (req, res) => {
+  app.delete('/movies/:id', verifyToken, requireAdmin, (req, res) => {
     db.movies.remove({ _id: mongojs.ObjectId(req.params.id) }, (err, response) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ response });

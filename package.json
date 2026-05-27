@@ -7,13 +7,13 @@
     "start": "babel-node index.js"
   },
   "dependencies": {
-    "axios": "^1.6.0",
+    "axios": "^1.7.9",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "body-parser": "^2.2.0",
     "consign": "^0.1.6",
     "dotenv": "^16.3.1",
-    "express": "^5.1.0",
+    "express": "^4.21.2",
+    "firebase-admin": "^11.11.1",
     "mongojs": "^3.1.0"
   }
 }
