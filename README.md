@@ -1,6 +1,6 @@
 # Movie Vault 🎬
 
-Gestor de películas personal full-stack con integración a TMDB, diseño dark Netflix-style y deploy en la nube.
+Gestor de películas personal full-stack con autenticación Firebase, integración a TMDB y diseño dark Netflix-style.
 
 ## Demo
 
@@ -11,12 +11,11 @@ Gestor de películas personal full-stack con integración a TMDB, diseño dark N
 
 ## Stack
 
-<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/dd1739cc-5dd0-450e-b708-1af9f6b1a37e" />
-
 | Capa | Tecnología |
 |---|---|
 | Frontend | React 19, CSS custom properties |
 | Backend | Node.js + Express + Babel |
+| Autenticación | Firebase Auth (Google + Email/Password) |
 | Base de datos | MongoDB Atlas |
 | API externa | TMDB (The Movie Database) |
 | Deploy frontend | Vercel |
@@ -24,17 +23,28 @@ Gestor de películas personal full-stack con integración a TMDB, diseño dark N
 
 ## Funcionalidades
 
+- Login con Google o email/contraseña (Firebase Auth)
+- Sistema de roles: **Admin** (CRUD completo) y **Viewer** (solo lectura)
 - Búsqueda en tiempo real de películas vía TMDB al agregar
 - Pósters, sinopsis, director, reparto y rating de TMDB
 - Estado personal: **Vista / Pendiente / Favorita**
 - Calificación personal con estrellas (1–5)
 - Notas personales por película
-- Filtros por estado, género y búsqueda en tu colección
+- Filtros por estado, género y búsqueda en la colección
 - Ordenamiento por título, año, rating TMDB o rating personal
 - Stats en tiempo real en el header
 - Modal de detalle con backdrop de TMDB
 - Animación skeleton mientras carga
 - Diseño responsivo
+
+## Sistema de roles
+
+| Rol | Asignación | Permisos |
+|---|---|---|
+| `admin` | Emails listados en `ADMIN_EMAILS` | Ver + Agregar + Editar + Eliminar |
+| `viewer` | Cualquier otro usuario registrado | Solo lectura |
+
+Al primer login, el sistema crea automáticamente el perfil del usuario con el rol correspondiente.
 
 ## Desarrollo local
 
@@ -42,16 +52,38 @@ Gestor de películas personal full-stack con integración a TMDB, diseño dark N
 
 - Node.js 18
 - MongoDB corriendo localmente (`mongod`)
-- Cuenta en TMDB para la API key
+- Proyecto Firebase con Authentication habilitado
+- API key de TMDB
 
-### Variables de entorno
+### Variables de entorno — Backend
 
-Copiá `.env.example` a `.env` en la raíz:
+Copiá `.env.example` a `.env` en la raíz y completá los valores:
 
 ```
-TMDB_API_KEY=tu_api_key
-MONGODB_URI=mongodb://localhost:27017/moviesdb   # local
+TMDB_API_KEY=             # API key de themoviedb.org
+MONGODB_URI=              # Connection string de MongoDB Atlas o local
+FIREBASE_PROJECT_ID=      # ID del proyecto Firebase
+FIREBASE_CLIENT_EMAIL=    # Email del service account
+FIREBASE_PRIVATE_KEY=     # Clave privada del service account (entre comillas)
+ADMIN_EMAILS=             # Emails con rol admin, separados por coma
 ```
+
+> ⚠️ El archivo `.env` y el JSON del service account de Firebase están en `.gitignore`. Nunca los commitees.
+
+### Variables de entorno — Frontend
+
+Completá `frontend/.env`:
+
+```
+PORT=3001
+REACT_APP_API_URL=        # URL del backend (http://localhost:3000 en local)
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_APP_ID=
+```
+
+> Los valores `REACT_APP_FIREBASE_*` se obtienen en Firebase Console → Project Settings → General → Your apps.
 
 ### Levantar el backend (raíz del proyecto)
 
@@ -70,45 +102,50 @@ yarn start        # http://localhost:3001
 
 Ambos servidores deben correr simultáneamente. El backend debe iniciar primero.
 
-### Variable de entorno del frontend (opcional en local)
-
-`frontend/.env` ya tiene `PORT=3001`. Si querés apuntar a un backend remoto:
-
-```
-REACT_APP_API_URL=movie-api.onrender.com Render
-```
-
-Sin esta variable el frontend usa `http://localhost:3000` por defecto.
-
 ## Deploy
 
+### Firebase (setup previo)
+
+1. Crear proyecto en https://console.firebase.google.com
+2. **Authentication** → habilitar **Google** y **Email/contraseña**
+3. **Project Settings → General → Add app (Web)** → copiar el objeto `firebaseConfig`
+4. **Project Settings → Service accounts → Generate new private key** → usar los valores en las env vars del backend
+5. **Authentication → Settings → Authorized domains** → agregar el dominio de Vercel
+
 ### MongoDB Atlas
+
 1. Crear cluster M0 (free) en https://cloud.mongodb.com
 2. Crear usuario con permisos de lectura/escritura
-3. Agregar IP `0.0.0.0/0` en Network Access
-4. Copiar connection string: `mongodb+srv://user:pass@cluster.mongodb.net/moviesdb`
+3. Agregar IP `0.0.0.0/0` en Network Access (necesario para Render)
+4. Copiar connection string y usarlo como `MONGODB_URI`
 
 ### Backend → Render
+
 - Build Command: `yarn install`
 - Start Command: `yarn start`
-- Node Version: `18` (via env var `NODE_VERSION=18`)
-- Variables: `TMDB_API_KEY`, `MONGODB_URI`
+- Node Version: `18` (env var `NODE_VERSION=18`)
+- Variables requeridas: `TMDB_API_KEY`, `MONGODB_URI`, `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `ADMIN_EMAILS`
 
 ### Frontend → Vercel
+
 - Root Directory: `frontend`
 - Framework: Create React App
-- Variable: `REACT_APP_API_URL=https://tu-backend.onrender.com`
+- Build Command: `react-scripts build`
+- Variables requeridas: `REACT_APP_API_URL`, `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_AUTH_DOMAIN`, `REACT_APP_FIREBASE_PROJECT_ID`, `REACT_APP_FIREBASE_APP_ID`
 
 ## API Endpoints
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/movies` | Obtener todas las películas |
-| POST | `/movies` | Agregar película |
-| PUT | `/movies/:id` | Actualizar película |
-| DELETE | `/movies/:id` | Eliminar película |
-| GET | `/tmdb/search?query=` | Buscar en TMDB |
-| GET | `/tmdb/movie/:id` | Detalle + créditos de TMDB |
+Todos los endpoints requieren autenticación (header `Authorization: Bearer <token>`). Los de escritura requieren rol `admin`.
+
+| Método | Ruta | Rol mínimo | Descripción |
+|---|---|---|---|
+| GET | `/movies` | viewer | Obtener todas las películas |
+| POST | `/movies` | admin | Agregar película |
+| PUT | `/movies/:id` | admin | Actualizar película |
+| DELETE | `/movies/:id` | admin | Eliminar película |
+| GET | `/tmdb/search?query=` | viewer | Buscar en TMDB |
+| GET | `/tmdb/movie/:id` | viewer | Detalle + créditos de TMDB |
+| GET | `/users/me` | viewer | Perfil y rol del usuario autenticado |
 
 ## Modelo de datos
 
