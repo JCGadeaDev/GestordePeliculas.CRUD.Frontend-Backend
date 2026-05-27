@@ -2,6 +2,8 @@
 
 Gestor de películas personal full-stack con autenticación Firebase, integración a TMDB y diseño dark Netflix-style.
 
+<img width="2816" height="1536" alt="Gemini_Generated_Image_3eqf8s3eqf8s3eqf" src="https://github.com/user-attachments/assets/dd1739cc-5dd0-450e-b708-1af9f6b1a37e" />
+
 ## Demo
 
 - **Frontend (Vercel):** `https://tu-app.vercel.app`
