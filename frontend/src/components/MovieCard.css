@@ -84,9 +84,24 @@
   justify-content: flex-end;
   padding: 16px;
   opacity: 0;
+  pointer-events: none;
   transition: opacity var(--transition-slow);
 }
-.movie-card:hover .card-overlay { opacity: 1; }
+.movie-card:hover .card-overlay { opacity: 1; pointer-events: auto; }
+
+/* Touch devices don't have :hover — keep the title + actions reachable permanently */
+@media (hover: none) {
+  .card-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 45%, transparent 85%);
+  }
+  .overlay-overview,
+  .overlay-genres { display: none; }
+  .overlay-title { font-size: 0.8rem; }
+  .card-actions { margin-top: 8px; }
+}
 
 .card-overlay-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
 

@@ -7,6 +7,9 @@
   margin: 0 auto;
 }
 
+@media (max-width: 480px) {
+  .movie-grid, .grid-skeletons { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; padding: 12px; }
+}
 @media (min-width: 640px)  { .movie-grid { grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); } }
 @media (min-width: 1024px) { .movie-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
 @media (min-width: 1440px) { .movie-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
